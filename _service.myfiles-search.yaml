@@ -1,0 +1,8 @@
+ServiceName: 'myfiles-search'
+InterfaceName: 'items'
+Description: 'Search Files'
+APIDoc: ''
+Interfaces: 'search,pagination'
+RequiredScopes: ''
+AdditionalParameters:
+Method: ''
