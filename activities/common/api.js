@@ -1,11 +1,7 @@
 'use strict';
 const got = require('got');
-const isPlainObj = require('is-plain-obj');
 const HttpAgent = require('agentkeepalive');
-const cfActivity = require('@adenin/cf-activity');
 const HttpsAgent = HttpAgent.HttpsAgent;
-
-let _activity = null;
 
 function api(path, opts) {
   if (typeof path !== 'string') {
@@ -14,7 +10,7 @@ function api(path, opts) {
 
   opts = Object.assign({
     json: true,
-    token: _activity.Context.connector.token,
+    token: Activity.Context.connector.token,
     endpoint: 'https://www.googleapis.com',
     agent: {
       http: new HttpAgent(),
@@ -73,10 +69,6 @@ api.stream = (url, opts) => apigot(url, Object.assign({}, opts, {
   json: false,
   stream: true
 }));
-
-api.initialize = function (activity) {
-  _activity = activity;
-};
 
 for (const x of helpers) {
   const method = x.toUpperCase();
