@@ -3,8 +3,8 @@ const api = require('./common/api');
 
 module.exports = async (activity) => {
   try {
-    let pagination = Activity.pagination();
-    let dateRange = Activity.dateRange("today");
+    let pagination = $.pagination(activity);
+    let dateRange = $.dateRange(activity, "today");
 
     let url = `/drive/v3/files?q=name contains '${activity.Request.Query.query || ""}'` +
       ` AND modifiedTime>'${dateRange.startDate}' AND modifiedTime<'${dateRange.endDate}'` +
@@ -13,16 +13,14 @@ module.exports = async (activity) => {
     if (pagination.nextpage) {
       url += `&pageToken=${pagination.nextpage}`;
     }
-
+    api.initialize(activity);
     const response = await api(url);
 
-    if (Activity.isErrorResponse(response)) return;
+    if ($.isErrorResponse(activity, response)) return;
 
     activity.Response.Data = api.convertResponse(response);
-    if (response.body.nextPageToken) {
-      activity.Response.Data._nextpage = response.body.nextPageToken;
-    }
+    if (response.body.nextPageToken) activity.Response.Data._nextpage = response.body.nextPageToken;
   } catch (error) {
-    Activity.handleError(error);
+    $.handleError(activity, error);
   }
 };
