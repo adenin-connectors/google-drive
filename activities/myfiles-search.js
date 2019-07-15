@@ -4,7 +4,7 @@ const api = require('./common/api');
 module.exports = async (activity) => {
   try {
     let pagination = $.pagination(activity);
-    let dateRange = $.dateRange(activity, "today");
+    let dateRange = $.dateRange(activity);
 
     let url = `/drive/v3/files?q=name contains '${activity.Request.Query.query || ""}'` +
       ` AND modifiedTime>'${dateRange.startDate}' AND modifiedTime<'${dateRange.endDate}'` +
