@@ -49,16 +49,22 @@ api.convertResponse = function (response) {
       id: raw.id,
       title: raw.name,
       description: raw.kind,
-      link: 'https://drive.google.com/drive/my-drive',
-      raw: raw
+      link: raw.webViewLink ? raw.webViewLink : 'https://drive.google.com/drive/my-drive',
+      date: new Date(raw.createdTime),
+      thumbnail: raw.iconLink.replace('16', '128')
     };
+
+    const modifiedTime = new Date(raw.modifiedTime);
+
+    if (raw.modifiedTime > item.date) item.lastModified = modifiedTime;
+    if (raw.viewedByMe) item.lastOpened = new Date(raw.viewedByMeTime);
+
+    item.raw = raw;
 
     items.push(item);
   }
 
-  return {
-    items: items
-  };
+  return items;
 };
 
 const helpers = [

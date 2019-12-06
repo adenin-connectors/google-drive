@@ -1,8 +1,0 @@
-ServiceName: 'myfiles'
-InterfaceName: items
-Description: List Of Files
-APIDoc: ''
-Interfaces: 'pagination'
-RequiredScopes: ''
-AdditionalParameters:
-Method: ''
