@@ -18,7 +18,7 @@ module.exports = async (activity) => {
 
     if ($.isErrorResponse(activity, response)) return;
 
-    activity.Response.Data = api.convertResponse(response);
+    activity.Response.Data.items = api.convertResponse(response);
     if (response.body.nextPageToken) activity.Response.Data._nextpage = response.body.nextPageToken;
   } catch (error) {
     $.handleError(activity, error);
